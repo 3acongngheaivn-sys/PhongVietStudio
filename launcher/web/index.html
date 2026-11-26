@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Kiểm tra độ phủ, dựng và chỉnh dấu tiếng Việt trong phông TrueType."><title>Phông Việt Studio</title><link rel="stylesheet" href="style.css"><script defer src="build-font.js"></script><script defer src="glyph-editor.js"></script><script defer src="app.js"></script><script defer src="local-session.js"></script></head>
+<body>
+<header class="top"><div class="wrap bar"><div class="brand"><span class="logo" aria-hidden="true">Ấ</span> Phông Việt <b>Studio</b></div><div class="local-tools"><span class="privacy">◉ Bản ngoại tuyến</span><button id="quit-local">Thoát Studio</button></div></div></header>
+<main class="wrap">
+<section class="intro"><div><h1>Soi chữ <em>tiếng Việt.</em></h1><p>Kiểm tra chữ còn thiếu, xem thử và dựng dấu tiếng Việt cho phông của bạn.</p></div><button id="report" disabled>Tải báo cáo ↓</button></section>
+<div class="workspace">
+<aside>
+<section class="card inputs"><h2>Phông chữ</h2>
+<label class="drop" id="drop"><input id="primary" type="file" accept=".ttf,.otf"><span class="upload" aria-hidden="true">＋</span><strong>Chọn phông cần kiểm</strong><small>Kéo thả tệp TTF hoặc OTF</small></label>
+<div id="source" class="file" aria-live="polite">Đang mở phông minh hoạ…</div>
+<button id="try-editor" class="demo-action">Thử với phông mẫu thiếu dấu</button>
+<label class="secondary"><input id="reference" type="file" accept=".ttf,.otf"><span>＋ Thêm phông đối chiếu</span></label>
+<div id="refname" class="file" aria-live="polite" hidden></div><button id="remove" class="quiet" hidden>Bỏ phông đối chiếu</button>
+<p id="notice" role="status" class="notice" hidden></p>
+</section>
+<section class="card stats"><h2>Độ phủ tiếng Việt</h2><div class="metric"><strong id="count">—</strong><span>/ 134 ký tự</span></div><progress id="progress" value="0" max="134" aria-label="Số ký tự có ánh xạ"></progress><p id="status">Đang kiểm tra bảng ký tự…</p></section>
+<section class="card builder">
+<h2>Dựng dấu tiếng Việt</h2>
+<p id="buildhint">Chọn phông TTF tĩnh để dựng các chữ còn thiếu.</p>
+<div id="buildcontrols" hidden>
+<label for="family">Tên phông mới</label>
+<input id="family" type="text" maxlength="55" placeholder="Tên riêng cho bản Việt hoá">
+<label for="gap">Khe dấu <output id="gapout" for="gap">4%</output></label>
+<input id="gap" type="range" min="1" max="10" value="4">
+<label class="check"><input id="licensed" type="checkbox"> Tôi có quyền sửa phông này</label>
+<button id="build" disabled>Dựng bản xem thử</button>
+</div>
+<p id="buildstatus" role="status" hidden></p>
+<button id="fontdownload" hidden>Tải phông TTF</button>
+</section>
+</aside>
+<div class="content">
+<section class="card glyph-editor" id="editor" hidden aria-labelledby="editor-title">
+  <div class="heading editor-heading">
+    <div><h2 id="editor-title">Soi và chỉnh glyph</h2><p id="glyph-summary"></p></div>
+    <div class="editor-toolbar">
+      <button id="undo-edit" disabled>Hoàn tác</button>
+      <button id="redo-edit" disabled>Làm lại</button>
+    </div>
+  </div>
+  <div class="editor-workspace">
+    <div class="editor-viewport">
+      <div class="editor-toolbar view-toolbar" aria-label="Điều khiển khung soi">
+        <button id="hand-tool" aria-pressed="false" title="Phím H">Bàn tay <kbd>H</kbd></button>
+        <div class="zoom-controls">
+          <button id="zoom-out" aria-label="Thu nhỏ">−</button>
+          <output id="zoom-label">100%</output>
+          <button id="zoom-in" aria-label="Phóng to">+</button>
+          <button id="fit-view">Vừa khung</button>
+        </div>
+      </div>
+      <svg id="glyph-stage" viewBox="0 0 640 400" tabindex="0" role="group" aria-label="Khung soi glyph" aria-describedby="editor-shortcuts">
+        <g id="glyph-scene"></g>
+      </svg>
+      <p id="editor-shortcuts">Cuộn để zoom · Giữ Space để kéo khung · Phím mũi tên để dời dấu</p>
+    </div>
+    <div class="editor-properties">
+      <label>Chữ cần chỉnh<select id="edit-glyph"></select></label>
+      <label>Thành phần<select id="edit-mark"></select></label>
+      <label>Áp dụng cho<select id="edit-scope">
+        <option value="glyph">Chữ đang chọn</option><option value="group">Cả nhóm cùng dấu</option>
+      </select></label>
+      <div class="editor-coordinates">
+        <label>Ngang (X)<input id="edit-x" type="number" value="0" step="1"></label>
+        <label>Dọc (Y)<input id="edit-y" type="number" value="0" step="1"></label>
+      </div>
+      <p id="edit-units">Độ lệch theo đơn vị font. Y dương đi lên.</p>
+      <button id="reset-offset">Xoá độ lệch</button>
+    </div>
+  </div>
+</section>
+<section class="card preview" id="text-preview"><div class="heading"><h2>Xem thử</h2><div class="pills" aria-label="Kiểu văn bản"><button data-sample="sample" aria-pressed="true">Mẫu câu</button><button data-sample="stack" aria-pressed="false">Dấu chồng</button></div></div>
+<div class="controls"><label for="size">Cỡ chữ <output id="sizeout" for="size">56 px</output></label><input id="size" type="range" min="20" max="100" value="56"><label class="check"><input type="checkbox" id="nfd"> Dạng tách dấu (NFD)</label></div>
+<label class="sr" for="copy">Văn bản xem thử</label><textarea id="copy" maxlength="1500" rows="2">Tiếng Việt giàu thanh điệu.
+Chữ đẹp, dấu rõ.</textarea>
+<div class="specimens"><div class="specimen"><small id="previewlabel">PHÔNG MINH HOẠ</small><div id="sampleview" class="proof"></div></div><div id="builtpanel" class="specimen built" hidden><small>BẢN DỰNG THỬ</small><div id="builtview" class="proof"></div></div><div id="refpanel" class="specimen ref" hidden><small>PHÔNG ĐỐI CHIẾU</small><div id="refview" class="proof"></div></div></div>
+</section>
+<section class="card coverage"><div class="heading"><div><h2>Bảng ký tự</h2><p>Độ phủ được đọc từ bảng ánh xạ ký tự của phông.</p></div><label class="check"><input type="checkbox" id="missing"> Chỉ hiện chữ thiếu</label></div><div id="glyphs" class="glyphs"></div><p id="empty" hidden></p></section>
+</div></div></main>
+<p id="local-status" class="wrap" role="status" hidden></p>
+<footer class="wrap foot"><span>Phông Việt Studio</span><a href="demo-license.txt">Giấy phép phông minh hoạ</a></footer>
+</body></html>

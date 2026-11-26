@@ -1,0 +1,15 @@
+PHÔNG VIỆT STUDIO 0.1.0
+Bộ cài ngoại tuyến cho Windows 10/11 x64 (Intel hoặc AMD)
+
+1. Giải nén gói ZIP vào một thư mục trên máy.
+2. Chạy PhongVietStudio-Setup-x64.exe và làm theo trình cài đặt.
+3. Mở Phông Việt Studio từ Start Menu. Ứng dụng mở trong trình duyệt mặc định.
+4. Chọn một font TTF tĩnh bạn có quyền chỉnh sửa hoặc thử với phông mẫu thiếu dấu.
+5. Khi hoàn tất, chọn Tải phông TTF. Bấm Thoát Studio để dừng ứng dụng.
+
+Studio cài cho tài khoản Windows hiện tại và chạy ngoại tuyến. Font bạn
+chọn được xử lý trong trình duyệt. Bộ cài không có chữ ký số.
+
+Để gỡ cài đặt, bấm Thoát Studio trước, rồi vào Cài đặt > Ứng dụng >
+Ứng dụng đã cài đặt và chọn Gỡ cài đặt Phông Việt Studio.
+Các tệp TTF đã tải xuống vẫn nằm trong thư mục tải xuống của bạn.
