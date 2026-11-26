@@ -1,0 +1,30 @@
+name: Build Windows installer
+
+on: [push, pull_request, workflow_dispatch]
+
+permissions:
+  contents: read
+
+jobs:
+  windows-x64:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.27.4'
+          cache: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Fetch and verify NSIS
+        run: bash installer/fetch-nsis.sh
+      - name: Build setup
+        run: bash build-release.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PhongVietStudio-Windows-x64
+          path: build/PhongVietStudio-Windows-x64.zip
+          if-no-files-found: error
